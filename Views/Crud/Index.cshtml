@@ -1,0 +1,15 @@
+﻿@using mvc_crud.Models
+@model IEnumerable<mvc_crud.Models.DriverModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<DriverModel> drivers = Model;
+}
+
+@foreach (var row in drivers)
+{
+    <h1>Name: @row.Name Age: @row.Age</h1>
+    <h3>@row.Nationality</h3>
+    <h3>@row.Active</h3>
+
+}
