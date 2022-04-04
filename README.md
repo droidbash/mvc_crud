@@ -34,5 +34,26 @@ https://stackoverflow.com/questions/25535484/read-data-from-model-and-display-on
 href Action of Controller:
 https://stackoverflow.com/questions/596444/html-actionlink-as-a-button-or-an-image-not-a-link
 
+link HTML5 form action to Controller ActionResult
+https://stackoverflow.com/questions/15190929/how-to-link-html5-form-action-to-controller-actionresult-method-in-asp-net-mvc-4
+
 Database with ConnectionStrings of Web.config
 https://docs.microsoft.com/en-us/dotnet/api/system.configuration.configurationmanager.connectionstrings?view=dotnet-plat-ext-6.0
+
+C# ASP.NET MVC: dynamic view update
+https://stackoverflow.com/questions/68639708/c-sharp-asp-net-mvc-update-view-dynamically
+
+TextChanged event in ASP.NET MVC
+https://www.youtube.com/watch?v=gwWf_5hYiDA
+
+Render @section scripts {}
+http://csharprules.blogspot.com/2014/11/usando-el-rendersection-en-mvc.html
+
+Ajax.Form:
+https://www.hanselman.com/blog/aspnet-mvc-preview-4-using-ajax-and-ajaxform
+
+Ajax.BeginForm Form:
+https://www.aspsnippets.com/Articles/ASPNet-MVC-AjaxBeginForm-Submit-Form-without-Page-Refresh-in-ASPNet-MVC.aspx
+
+HTML Table Search:
+https://www.w3schools.com/howto/howto_js_filter_table.asp
