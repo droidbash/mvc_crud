@@ -75,3 +75,6 @@ https://docs.microsoft.com/en-us/aspnet/mvc/overview/performance/using-asynchron
 
 Expresiones Regulares con acentos:
 https://stackoverflow.com/questions/20690499/concrete-javascript-regular-expression-for-accented-characters-diacritics
+
+READ THIS!:
+https://stackoverflow.com/questions/46615111/prevent-form-resubmit

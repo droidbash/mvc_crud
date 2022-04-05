@@ -65,7 +65,8 @@ namespace mvc_crud.Controllers
             try
             {
                 await QueryAsync(SettingsDevelop, query);
-                return View("Index", await GetDriversAsync());
+                return RedirectToAction("Index");
+                //return View("Index", await GetDriversAsync());
             }
             catch (Exception e)
             {
