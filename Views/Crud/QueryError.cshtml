@@ -1,0 +1,14 @@
+﻿@using mvc_crud.Models
+@model mvc_crud.Models.QueryError
+@{
+
+    QueryError err = Model;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Error.</h1>
+        <h2>@err.Msg</h2>
+        <p>@err.Error</p>
+    </div>
+</div>

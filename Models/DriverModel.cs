@@ -13,4 +13,8 @@ namespace mvc_crud.Models
         public int Age { get; set; }
         public bool Active { get; set; }
     }
+    public class QueryError {
+        public string Msg { get; set; }
+        public string Error { get; set; }
+    }
 }

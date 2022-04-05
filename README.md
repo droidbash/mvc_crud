@@ -31,6 +31,12 @@ https://asp.mvc-tutorial.com/views/passing-data-into-views/
 https://stackoverflow.com/questions/25535484/read-data-from-model-and-display-on-razor-view-mvc
 
 ====================================================================================
+Bootstrap 3.4:
+https://getbootstrap.com/docs/3.4/
+
+Bootstrap 4.2:
+https://getbootstrap.com/docs/4.2/getting-started/introduction/
+
 href Action of Controller:
 https://stackoverflow.com/questions/596444/html-actionlink-as-a-button-or-an-image-not-a-link
 
@@ -57,3 +63,15 @@ https://www.aspsnippets.com/Articles/ASPNet-MVC-AjaxBeginForm-Submit-Form-withou
 
 HTML Table Search:
 https://www.w3schools.com/howto/howto_js_filter_table.asp
+
+C# object to JsonResult:
+https://stackoverflow.com/questions/6201529/how-do-i-turn-a-c-sharp-object-into-a-json-string-in-net
+
+Parse JsonResult in JavaScript:
+https://api.jquery.com/jquery.parsejson/
+
+Async tasks:
+https://docs.microsoft.com/en-us/aspnet/mvc/overview/performance/using-asynchronous-methods-in-aspnet-mvc-4
+
+Expresiones Regulares con acentos:
+https://stackoverflow.com/questions/20690499/concrete-javascript-regular-expression-for-accented-characters-diacritics
