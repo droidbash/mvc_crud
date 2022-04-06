@@ -120,7 +120,7 @@ namespace mvc_crud.Controllers
          * =====================================================================================================================================
          * DATABASE GETTERS
          */
-        string driversQuery = "SELECT id, name, nationality, age, active FROM CRUDMVC.dbo.Driver";
+        string driversQuery = "SELECT id, name, nationality, age, active FROM CRUDMVC.dbo.Driver order by name";
         ConnectionStringSettings SettingsDevelop = ConfigurationManager.ConnectionStrings["develop"];
         public List<DriverModel> GetDrivers()
         {

@@ -17,20 +17,21 @@
 -->
 <div class="row">
     <div class="col-md-12">
-        <center>
-            <h1>Pilotos 
-                <button type="button" class="btn btn-default driver add" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
-            </h1>
-        </center>
-        <!--
+        <center><h1>Pilotos</h1></center>
         <center><p>@IsPost</p></center>
+        <!--
         <h3>@(selected == null ? "null" : selected.Name)</h3>
-        -->
+        -->    
+    </div>
+    <div class="col-md-2 col-md-offset-1">
+        <center>
+            <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Buscar por nombre">
+        </center>
     </div>
 </div>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        <table id="table" class="table table-responsive">
+        <table id="driverstable" class="table table-responsive">
             <thead>
                 <tr>
                     <th hidden>ID</th>
@@ -45,7 +46,7 @@
                 @foreach (var driver in drivers)
                 {
                     <!---->
-                    <tr>
+                    <tr style="display: none;">
                         <td hidden>@(driver.Id.ToString())</td>
                         <td>@driver.Name</td>
                         <td>@driver.Nationality</td>
@@ -53,7 +54,7 @@
                         <td>@driver.Active</td>
                         <td>
                             <button type="button" class="btn btn-primary driver edit" data-toggle="modal" data-id="@driver.Id"><span class="glyphicon glyphicon-edit"></span></button>
-                            <!--
+                            <!--    
                             @Html.ActionLink("Remove","DeleteDriver", "Crud", new { id = driver.Id }, null)
                             -->
                             <a class="btn btn-danger" href="@Url.Action("DeleteDriver","Crud", new { id = driver.Id }, null)">
@@ -62,18 +63,18 @@
                         </td>
                     </tr>
                 }
-                            <!--
                 <tr>
                     <td colspan="6">
                         <center>
+                            <!--    
                             <a class="btn btn-primary" href="@Url.Action(" Add", "Crud")">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
+                            -->
                             <button type="button" class="btn btn-default driver add" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
                         </center>
                     </td>
                 </tr>
-                            -->
             </tbody>
         </table>
     </div>
@@ -81,8 +82,7 @@
 <!-- Modal -->
 <div class="modal fade driver" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        @using (Html.BeginForm("DriverModal", "Crud", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+        @using (Html.BeginForm("DriverModal", "Crud", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -135,14 +135,14 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            $('input:not([type="checkbox"])').keyup(function () {
+            $('input:not([type="checkbox"])').change(function () {
                 var flag = true;
                 $('input:not([type="checkbox"])').each(function (index, elem) {
                     flag = $(this).val().length == 0;
                 });
                 $('.driver.submit').prop('disabled', flag);
             });
-            $('.driver.add').click(function () {
+            $('.btn.btn-default').click(function () {
                 $('.modal.driver').modal('toggle');
                 $('.modal-title').html('Agregar piloto');
                 $('#id').val('');
@@ -152,7 +152,7 @@
                 $('#active').prop('checked', false);
                 $('.driver.submit').val('add').prop('disabled', true);
             });
-            $('.driver.edit').click(function () {
+            $('.btn.btn-primary').click(function () {
                 var elemId = $(this).data("id");
                 $.ajax({
                     url: '/Crud/DriverSelect',
@@ -173,19 +173,16 @@
                     }
                 });
             });
-            tablePages();
-        });
-        function tablePages(){
-            $('#table').before('<div class="pull-right" id="nav"></div>');
+            $('#data').after('<div id="nav"></div>');
             var rowsShown = 7;
-            var rowsTotal = $('#table tbody tr').length;
+            var rowsTotal = $('#data tbody tr').length;
             var numPages = rowsTotal / rowsShown;
             for (i = 0; i < numPages; i++) {
                 var pageNum = i + 1;
-                $('#nav').append('<a  class="btn btn-default" href="#" rel="' + i + '">' + pageNum + '</a> ');
+                $('#nav').append('<a href="#" rel="' + i + '">' + pageNum + '</a> ');
             }
-            $('#table tbody tr').hide();
-            $('#table tbody tr').slice(0, rowsShown).show();
+            $('#data tbody tr').hide();
+            $('#data tbody tr').slice(0, rowsShown).show();
             $('#nav a:first').addClass('active');
             $('#nav a').bind('click', function () {
 
@@ -194,10 +191,10 @@
                 var currPage = $(this).attr('rel');
                 var startItem = currPage * rowsShown;
                 var endItem = startItem + rowsShown;
-                $('#table tbody tr').css('opacity', '0.0').hide().slice(startItem, endItem).
+                $('#data tbody tr').css('opacity', '0.0').hide().slice(startItem, endItem).
                     css('display', 'table-row').animate({ opacity: 1 }, 300);
             });
-        }
+        });
         function myFunction() {
             // Declare variables
             var input, filter, table, tr, td, row, txtValue, column = 1;
