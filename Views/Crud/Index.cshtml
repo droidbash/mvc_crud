@@ -18,9 +18,9 @@
 <div class="row">
     <div class="col-md-12">
         <center>
-            <h1>Pilotos 
-                <button type="button" class="btn btn-default driver add" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
-            </h1>
+            <div class="jumbotron">
+                <h2>Pilotos</h2>
+            </div>
         </center>
         <!--
         <center><p>@IsPost</p></center>
@@ -29,6 +29,9 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <button type="button" title="Agregar piloto" class="btn btn-lg btn-default driver add" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
+    </div>
     <div class="col-md-10 col-md-offset-1">
         <table id="table" class="table table-responsive">
             <thead>
@@ -51,18 +54,18 @@
                         <td>@driver.Nationality</td>
                         <td>@driver.Age</td>
                         <td>@driver.Active</td>
-                        <td>
+                        <td align="right">
                             <button type="button" class="btn btn-primary driver edit" data-toggle="modal" data-id="@driver.Id"><span class="glyphicon glyphicon-edit"></span></button>
                             <!--
-                            @Html.ActionLink("Remove","DeleteDriver", "Crud", new { id = driver.Id }, null)
+                            @Html.ActionLink("Remove", "DeleteDriver", "Crud", new { id = driver.Id }, null)
                             -->
-                            <a class="btn btn-danger" href="@Url.Action("DeleteDriver","Crud", new { id = driver.Id }, null)">
+                            <a class="btn btn-danger" href="@Url.Action("DeleteDriver", "Crud", new { id = driver.Id }, null)">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
                         </td>
                     </tr>
                 }
-                            <!--
+                <!--
                 <tr>
                     <td colspan="6">
                         <center>
@@ -83,6 +86,7 @@
     <div class="modal-dialog" role="document">
         @using (Html.BeginForm("DriverModal", "Crud", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+            @Html.AntiForgeryToken()
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -132,6 +136,9 @@
         }
     </div>
 </div>
+<!--    
+@Html.Partial("~/Views/Shared/Error.cshtml")
+-->
 @section scripts {
     <script>
         $(document).ready(function () {
@@ -175,14 +182,14 @@
             });
             tablePages();
         });
-        function tablePages(){
-            $('#table').before('<div class="pull-right" id="nav"></div>');
-            var rowsShown = 7;
+        function tablePages() {
+            $('.driver.add').after('<div class="pull-right" id="nav"></div>');
+            var rowsShown = 10;
             var rowsTotal = $('#table tbody tr').length;
             var numPages = rowsTotal / rowsShown;
             for (i = 0; i < numPages; i++) {
                 var pageNum = i + 1;
-                $('#nav').append('<a  class="btn btn-default" href="#" rel="' + i + '">' + pageNum + '</a> ');
+                $('#nav').append('<a  class="btn btn-default btn-lg" href="#" rel="' + i + '">' + pageNum + '</a> ');
             }
             $('#table tbody tr').hide();
             $('#table tbody tr').slice(0, rowsShown).show();

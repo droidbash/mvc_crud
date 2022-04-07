@@ -37,6 +37,9 @@ https://getbootstrap.com/docs/3.4/
 Bootstrap 4.2:
 https://getbootstrap.com/docs/4.2/getting-started/introduction/
 
+Another WAY without Entity Framework (controller like Entity Framewor):
+https://www.youtube.com/watch?v=HupmPny23pE
+
 href Action of Controller:
 https://stackoverflow.com/questions/596444/html-actionlink-as-a-button-or-an-image-not-a-link
 
