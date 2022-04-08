@@ -1,5 +1,4 @@
 # mvc_crud
-
 ﻿El actual ejemplo ha sido elaborado en base a la siguiente referencia:
 https://www.youtube.com/watch?v=z6qZPKBgcaE
 
