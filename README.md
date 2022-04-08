@@ -26,6 +26,12 @@ https://www.variablenotfound.com/2008/05/retornando-actionresults-en-acciones.ht
 IIS Express Config:
 https://stackoverflow.com/questions/36373963/how-to-leave-iisexpress-running-after-stopping-debugging-in-visual-studio-2015-u
 
+#Global.asax
+http://www.tuprogramacion.com/programacion/que-es-el-global-asax-y-como-funciona/
+
+#Funcionamiento de _ViewStart.cshtml
+https://asp.mvc-tutorial.com/es/460/layout/el-archivo-viewstart/
+
 Más ejemplos:
 https://asp.mvc-tutorial.com/views/passing-data-into-views/
 https://stackoverflow.com/questions/25535484/read-data-from-model-and-display-on-razor-view-mvc
@@ -36,6 +42,9 @@ https://getbootstrap.com/docs/3.4/
 
 Bootstrap 4.2:
 https://getbootstrap.com/docs/4.2/getting-started/introduction/
+
+Project updated! Bootstrap 5.0 ref:
+https://getbootstrap.com/docs/5.0/
 
 Another WAY without Entity Framework (controller like Entity Framewor):
 https://www.youtube.com/watch?v=HupmPny23pE
@@ -81,3 +90,9 @@ https://stackoverflow.com/questions/20690499/concrete-javascript-regular-express
 
 READ THIS!:
 https://stackoverflow.com/questions/46615111/prevent-form-resubmit
+
+##Antiforgery:
+https://learntutorials.net/es/asp-net-mvc/topic/1997/html-antiforgerytoken
+
+##Partial Views:
+https://docs.microsoft.com/en-us/aspnet/core/mvc/views/partial?view=aspnetcore-6.0

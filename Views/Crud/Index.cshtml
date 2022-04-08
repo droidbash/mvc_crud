@@ -6,34 +6,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     IEnumerable<DriverModel> drivers = Model;
 }
-<!--
-@foreach (var row in drivers)
-{
-    <h1>Name: @row.Name Age: @row.Age</h1>
-    <h3>@row.Nationality</h3>
-    <h3>@row.Active</h3>
-
-}
--->
 <div class="row">
-    <div class="col-md-12">
-        <center>
-            <div class="jumbotron">
-                <h2>Pilotos</h2>
-            </div>
-        </center>
-        <!--
-        <center><p>@IsPost</p></center>
-        <h3>@(selected == null ? "null" : selected.Name)</h3>
-        -->
+    <div class="col g-2">
+        <div class="bg-light p-3 rounded">
+            <h1>Pilotos</h1>
+        </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <button type="button" title="Agregar piloto" class="btn btn-lg btn-default driver add" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
-    </div>
-    <div class="col-md-10 col-md-offset-1">
-        <table id="table" class="table table-responsive">
+    <div class="col g-2">
+        <table id="table" class="p-4 table table-light table-hover table-bordered p-3">
             <thead>
                 <tr>
                     <th hidden>ID</th>
@@ -47,50 +29,40 @@
             <tbody>
                 @foreach (var driver in drivers)
                 {
-                    <!---->
+                    <!--
+                    -->
                     <tr>
                         <td hidden>@(driver.Id.ToString())</td>
                         <td>@driver.Name</td>
                         <td>@driver.Nationality</td>
                         <td>@driver.Age</td>
                         <td>@driver.Active</td>
-                        <td align="right">
-                            <button type="button" class="btn btn-primary driver edit" data-toggle="modal" data-id="@driver.Id"><span class="glyphicon glyphicon-edit"></span></button>
+                        <td align="center">
+                            <button type="button" class="btn btn-primary driver edit" data-toggle="modal" data-id="@driver.Id">Editar</button>
                             <!--
                             @Html.ActionLink("Remove", "DeleteDriver", "Crud", new { id = driver.Id }, null)
                             -->
-                            <a class="btn btn-danger" href="@Url.Action("DeleteDriver", "Crud", new { id = driver.Id }, null)">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </a>
+                            <a class="btn btn-danger" href="@Url.Action("DeleteDriver", "Crud", new { id = driver.Id }, null)">Eliminar</a>
                         </td>
                     </tr>
                 }
-                <!--
-                <tr>
-                    <td colspan="6">
-                        <center>
-                            <a class="btn btn-primary" href="@Url.Action(" Add", "Crud")">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </a>
-                            <button type="button" class="btn btn-default driver add" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
-                        </center>
-                    </td>
-                </tr>
-                            -->
             </tbody>
         </table>
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade driver" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+<div class="modal driver" id="myModal" tabindex="-1">
+    <div class="modal-dialog">
         @using (Html.BeginForm("DriverModal", "Crud", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"></h4>
+                    <!--    
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    -->
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -129,18 +101,18 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary driver submit" id="function" name="function" value="">Guardar</button>
                 </div>
             </div>
         }
     </div>
 </div>
-<!--    
+<!--
 @Html.Partial("~/Views/Shared/Error.cshtml")
 -->
 @section scripts {
-    <script>
+<script>
         $(document).ready(function () {
             $('input:not([type="checkbox"])').keyup(function () {
                 var flag = true;
@@ -149,7 +121,7 @@
                 });
                 $('.driver.submit').prop('disabled', flag);
             });
-            $('.driver.add').click(function () {
+            $(document).on('click', '.driver.add', (function () {
                 $('.modal.driver').modal('toggle');
                 $('.modal-title').html('Agregar piloto');
                 $('#id').val('');
@@ -158,7 +130,7 @@
                 $('#age').val('');
                 $('#active').prop('checked', false);
                 $('.driver.submit').val('add').prop('disabled', true);
-            });
+            }));
             $('.driver.edit').click(function () {
                 var elemId = $(this).data("id");
                 $.ajax({
@@ -183,13 +155,19 @@
             tablePages();
         });
         function tablePages() {
-            $('.driver.add').after('<div class="pull-right" id="nav"></div>');
+            $('table').parent().before(
+                `<div class="row">
+                    <div id="nav" class="col g-2">
+                        <button type="button" title="Agregar piloto" class="btn btn-outline-success driver add" data-bs-toggle="modal">Agregar</button>
+                    </div>
+                </div>`
+            );
             var rowsShown = 10;
             var rowsTotal = $('#table tbody tr').length;
             var numPages = rowsTotal / rowsShown;
             for (i = 0; i < numPages; i++) {
                 var pageNum = i + 1;
-                $('#nav').append('<a  class="btn btn-default btn-lg" href="#" rel="' + i + '">' + pageNum + '</a> ');
+                $('#nav').append('<a  class="btn btn-outline-secondary" href="#" rel="' + i + '">' + pageNum + '</a> ');
             }
             $('#table tbody tr').hide();
             $('#table tbody tr').slice(0, rowsShown).show();
@@ -231,5 +209,5 @@
                 }
             }
         }
-    </script>
+</script>
 }

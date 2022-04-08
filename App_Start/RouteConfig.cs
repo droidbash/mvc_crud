@@ -23,11 +23,9 @@ namespace mvc_crud
                  *  Definicion
                  *  controller: String
                  *      Requiere una clase que herede de Controller.
-                 *  
                  *  Definicion
                  *  action: String
                  *      Requiere un ActionResult del Controller especificado en controller.
-                 *  
                  *  Definicion
                  *  id: String
                  *      <- ¿?

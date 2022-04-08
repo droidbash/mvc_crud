@@ -23,18 +23,12 @@ namespace mvc_crud.Controllers
 {
     public class CrudController : Controller
     {
-        /*
-         * =====================================================================================================================================
-         * ACTION RESULTS
-         */
+        string driversQuery = "SELECT id, name, nationality, age, active FROM CRUDMVC.dbo.Driver order by name";
+        ConnectionStringSettings SettingsDevelop = ConfigurationManager.ConnectionStrings["develop"];
         public ActionResult Index()
         {
             return View(GetDrivers());
         }
-        /*
-         * =====================================================================================================================================
-         * METHODS
-         */
         [HttpPost]
         public JsonResult DriverSelect(int id)
         {
@@ -46,6 +40,32 @@ namespace mvc_crud.Controllers
             return null;
         }
         [HttpPost]
+        public string QueryAddDriver(HttpRequestBase request)
+        {
+            var name = request.Form["name"];
+            var nationality = request.Form["nationality"];
+            var age = request.Form["age"];
+            var active = request.Form["active"] == "on";
+            return string.Format("insert into CRUDMVC.dbo.driver (name,nationality,age,active) values ('{0}','{1}','{2}','{3}')", name, nationality, age, active); ;
+            /*
+            return "";
+            */
+        }
+        [HttpPost]
+        public string QueryEditDriver(HttpRequestBase request)
+        {
+            var id = request.Form["id"];
+            var name = request.Form["name"];
+            var nationality = request.Form["nationality"];
+            var age = request.Form["age"];
+            var active = request.Form["active"] == "on";
+            return string.Format("update CRUDMVC.dbo.driver set name = '{0}', nationality = '{1}', age = '{2}', active = '{3}' where id = '{4}'", name, nationality, age, active, id);
+        }
+        [HttpPost]
+        public string QueryDeleteDriver(int id)
+        {
+            return string.Format("delete from CRUDMVC.dbo.driver where id = '{0}'", id);
+        }
         public async Task<ActionResult> DriverModal()
         {
             var function = Request.Form["function"];
@@ -73,33 +93,6 @@ namespace mvc_crud.Controllers
                 return View("QueryError", new QueryError() { Msg = "Error al procesar la solicitud en la base de datos.", Error = e.Message });
             }
         }
-        /*
-        * DATABASE QUERYS
-        */
-        private string QueryAddDriver(HttpRequestBase request)
-        {
-            var name = request.Form["name"];
-            var nationality = request.Form["nationality"];
-            var age = request.Form["age"];
-            var active = request.Form["active"] == "on";
-            return string.Format("insert into CRUDMVC.dbo.driver (name,nationality,age,active) values ('{0}','{1}','{2}','{3}')", name, nationality, age, active); ;
-            /*
-            return "";
-            */
-        }
-        public string QueryEditDriver(HttpRequestBase request)
-        {
-            var id = request.Form["id"];
-            var name = request.Form["name"];
-            var nationality = request.Form["nationality"];
-            var age = request.Form["age"];
-            var active = request.Form["active"] == "on";
-            return string.Format("update CRUDMVC.dbo.driver set name = '{0}', nationality = '{1}', age = '{2}', active = '{3}' where id = '{4}'", name, nationality, age, active, id);
-        }
-        public string QueryDeleteDriver(int id)
-        {
-            return string.Format("delete from CRUDMVC.dbo.driver where id = '{0}'", id);
-        }
         public async Task<ActionResult> DeleteDriver(int id)
         {
             Debug.WriteLine(id);
@@ -116,12 +109,6 @@ namespace mvc_crud.Controllers
                 await command.ExecuteNonQueryAsync();
             }
         }
-        /*
-         * =====================================================================================================================================
-         * DATABASE GETTERS
-         */
-        string driversQuery = "SELECT id, name, nationality, age, active FROM CRUDMVC.dbo.Driver order by name";
-        ConnectionStringSettings SettingsDevelop = ConfigurationManager.ConnectionStrings["develop"];
         public List<DriverModel> GetDrivers()
         {
             List<DriverModel> drivers = new List<DriverModel>() { };
@@ -173,13 +160,5 @@ namespace mvc_crud.Controllers
             }
             return drivers;
         }
-        /*
-        public ActionResult TestView() {
-            List<DriverModel> m = new List<DriverModel>() {
-                new DriverModel { Name = "NAME", Nationality = "NATIONALITY", Age = 20, Active = true }
-            };
-            return View(m);
-        }
-        */
     }
 }
