@@ -23,7 +23,7 @@ namespace mvc_crud.Controllers
 {
     public class CrudController : Controller
     {
-        string driversQuery = "SELECT id, name, nationality, age, active FROM CRUDMVC.dbo.Driver order by name";
+        string driversQuery = "SELECT id, name, nationality, age, active FROM GCAV.dbo.Driver order by name";
         ConnectionStringSettings SettingsDevelop = ConfigurationManager.ConnectionStrings["develop"];
         public ActionResult Index()
         {
@@ -46,7 +46,7 @@ namespace mvc_crud.Controllers
             var nationality = request.Form["nationality"];
             var age = request.Form["age"];
             var active = request.Form["active"] == "on";
-            return string.Format("insert into CRUDMVC.dbo.driver (name,nationality,age,active) values ('{0}','{1}','{2}','{3}')", name, nationality, age, active); ;
+            return string.Format("insert into GCAV.dbo.driver (name,nationality,age,active) values ('{0}','{1}','{2}','{3}')", name, nationality, age, active); ;
             /*
             return "";
             */
@@ -59,12 +59,12 @@ namespace mvc_crud.Controllers
             var nationality = request.Form["nationality"];
             var age = request.Form["age"];
             var active = request.Form["active"] == "on";
-            return string.Format("update CRUDMVC.dbo.driver set name = '{0}', nationality = '{1}', age = '{2}', active = '{3}' where id = '{4}'", name, nationality, age, active, id);
+            return string.Format("update GCAV.dbo.driver set name = '{0}', nationality = '{1}', age = '{2}', active = '{3}' where id = '{4}'", name, nationality, age, active, id);
         }
         [HttpPost]
         public string QueryDeleteDriver(int id)
         {
-            return string.Format("delete from CRUDMVC.dbo.driver where id = '{0}'", id);
+            return string.Format("delete from GCAV.dbo.driver where id = '{0}'", id);
         }
         public async Task<ActionResult> DriverModal()
         {
