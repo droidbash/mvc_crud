@@ -109,7 +109,7 @@ namespace mvc_crud.Controllers
                 await command.ExecuteNonQueryAsync();
             }
         }
-        public List<DriverModel> GetDrivers()
+        public List<DriverModel> GetDrivers()   
         {
             List<DriverModel> drivers = new List<DriverModel>() { };
             string connectionString = ConfigurationManager.ConnectionStrings["develop"].ConnectionString;

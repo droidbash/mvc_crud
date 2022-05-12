@@ -13,12 +13,12 @@ namespace mvc_crud.Controllers
         }
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Descripción de la aplicación web.";
             return View();
         }
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Página de contacto.";
             return View();
         }
     }

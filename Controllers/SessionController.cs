@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using mvc_crud.Models;
 
 namespace mvc_crud.Controllers
 {
@@ -17,16 +18,16 @@ namespace mvc_crud.Controllers
         {
             String user = Request.Form["user"];
             String pass = Request.Form["password"];
-            if (Access.Login(user, pass))
+            UserModel userModel = Access.Login(user, pass);
+            if (userModel.Id == 0)
             {
-                Session["ID"] = "0";
-                Session["email"] = user;
-                Session["pass"] = pass;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Session");
             }
             else
             {
-                return RedirectToAction("Login", "Session");
+                Session["id"] = userModel.Id;
+                Session["user"] = userModel;
+                return RedirectToAction("Index", "Home");
             }
         }
         public ActionResult MyDashboard()
@@ -35,7 +36,7 @@ namespace mvc_crud.Controllers
         }
         public ActionResult Logout()
         {
-            Session.Remove("ID");
+            Session.Remove("id");
             return View("Login");
         }
     }

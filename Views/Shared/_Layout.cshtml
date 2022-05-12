@@ -1,5 +1,7 @@
-﻿@{
+﻿@using mvc_crud.Models
+@{
     Access.Verify(Session, Response);
+    UserModel user = (UserModel)Session["user"];
 }
 <!DOCTYPE html>
 <html>
@@ -36,7 +38,7 @@
                         @Html.ActionLink("Pilotos", "Index", "Crud", new object { }, new { @class = "nav-link" })
                     </li>
                 </ul>
-                <!--    
+                <!--
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <i class="bi bi-box-arrow-up"></i>
@@ -47,10 +49,7 @@
                 -->
                 <a class="btn btn-outline-success" style="text-decoration:none; vertical-align:middle; margin-right:15px;" href="@Url.Action("MyDashboard", "Session", null, null)">
                     <i class="bi bi-person-lines-fill"></i>
-                    @Session["email"].ToString().Substring(
-                        0,
-                        Session["email"].ToString().IndexOf("@")
-                    )
+                    @(user == null ? "expired" : user.Name)
                 </a>
                 <a class="btn btn-outline-danger" title="Cerrar sesión" href="@Url.Action("Logout", "Session", null, null)">
                     <i class="bi bi-arrow-bar-right"></i>
