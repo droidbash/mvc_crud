@@ -38,11 +38,11 @@
                         <td>@driver.Age</td>
                         <td>@driver.Active</td>
                         <td align="center">
-                            <button type="button" class="btn btn-primary driver edit" data-toggle="modal" data-id="@driver.Id">Editar</button>
+                            <button type="button" class="btn btn-outline-primary driver edit" data-toggle="modal" data-id="@driver.Id">Editar</button>
                             <!--
                             @Html.ActionLink("Remove", "DeleteDriver", "Crud", new { id = driver.Id }, null)
                             -->
-                            <a class="btn btn-danger" href="@Url.Action("DeleteDriver", "Crud", new { id = driver.Id }, null)">Eliminar</a>
+                            <a class="btn btn-outline-danger" href="@Url.Action("DeleteDriver", "Crud", new { id = driver.Id }, null)">Eliminar</a>
                         </td>
                     </tr>
                 }
@@ -59,10 +59,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
-                    <!--    
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    -->
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -101,8 +98,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary driver submit" id="function" name="function" value="">Guardar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                    <button type="submit" class="btn btn-success driver submit" id="function" name="function" value="">Guardar</button>
                 </div>
             </div>
         }
@@ -158,7 +155,7 @@
             $('table').parent().before(
                 `<div class="row">
                     <div id="nav" class="col g-2">
-                        <button type="button" title="Agregar piloto" class="btn btn-outline-success driver add" data-bs-toggle="modal">Agregar</button>
+                        <button type="button" title="Agregar piloto" class="btn btn-outline-success driver add">Agregar</button>
                     </div>
                 </div>`
             );

@@ -8,7 +8,9 @@
     @using (Html.BeginForm("Submit", "Session", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <center>
-            <h1 class="h3 mb-3 fw-normal">G.C.A.V.</h1>
+            <h1 class="h3 mb-3 fw-light" style="font-size: 60px; letter-spacing: 5px;">
+                    G.C.A.V.
+            </h1>
         </center>
 
         <div class="form-floating">
@@ -25,7 +27,7 @@
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesi&oacute;n</button>
+        <button class="w-100 btn btn-lg btn-outline-primary" type="submit">Iniciar sesi&oacute;n</button>
         <p class="mt-5 mb-3 text-muted">&copy; droidev</p>
     }
 </main>
