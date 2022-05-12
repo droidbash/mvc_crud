@@ -116,9 +116,11 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\Access.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CrudController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -206,6 +208,12 @@
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <None Include="Views\Crud\IndexBAK.cshtml" />
+    <Content Include="Views\Session\_Layout.cshtml" />
+    <Content Include="Views\Session\LoginORIG.cshtml" />
+    <Content Include="Views\Session\User.cshtml" />
+    <Content Include="Views\Session\MyDashboard.cshtml" />
+    <Content Include="Views\Session\LoginBAK.cshtml" />
+    <Content Include="Views\Session\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

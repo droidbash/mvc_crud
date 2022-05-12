@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Session/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            @using (Html.BeginForm("Submit", "Session", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="email" name="user" class="form-control" />
+                    <label class="form-label" for="email">Email</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <input type="password" name="password" class="form-control" />
+                    <label class="form-label" for="password">Contrase&ntilde;a</label>
+                </div>
+
+                <!-- 2 column grid layout for inline styling -->
+                <div class="row mb-4" hidden>
+                    <div class="col d-flex justify-content-center">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" checked />
+                            <label class="form-check-label" for="form2Example31"> Remember me </label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Simple link -->
+                        <a href="#!">Forgot password?</a>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <center>
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Iniciar sesi&oacute;n</button>
+                </center>
+
+                <!-- Register buttons -->
+                <div class="text-center" hidden>
+                    <p>Not a member? <a href="#!">Register</a></p>
+                    <p>or sign up with:</p>
+                    <button type="button" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-google"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-github"></i>
+                    </button>
+                </div>
+            }
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
