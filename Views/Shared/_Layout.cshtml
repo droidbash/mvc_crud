@@ -1,6 +1,6 @@
 ﻿@using mvc_crud.Models
 @{
-    Access.Verify(Session, Response);
+    Access.Verify(Session, Request, Response);
     UserModel user = (UserModel)Session["user"];
 }
 <!DOCTYPE html>

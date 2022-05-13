@@ -7,34 +7,50 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
 using mvc_crud.Models;
+using System;
 
 namespace mvc_crud
 {
     public class Access
     {
-        public static void Verify(HttpSessionStateBase session, HttpResponseBase response)
+        static Dictionary<int, List<string>> levelAccess = new Dictionary<int, List<string>>() {
+            { 0, new List<string>() {"/Crud" } }
+        };
+        private static int GetPathLevel(string path)
         {
-            if(session != null)
+            foreach (var row in levelAccess)
             {
-                if(session["ID"] == null)
+                if (row.Value.Contains(path))
+                    return row.Key;
+            }
+            return int.MaxValue;
+        }
+        public static void Verify(HttpSessionStateBase session, HttpRequestBase req, HttpResponseBase resp)
+        {
+            try
+            {
+                UserModel user = (UserModel) session["user"];
+                int pathLevel = GetPathLevel(req.Url.AbsolutePath);
+                if(user == null)
                 {
-                    response.Redirect("~/Session/Login");
+                    resp.Redirect("~/Session/Login");
                 }
                 else
                 {
-                    Debug.Write("ID: " + session["ID"]);
+                    if(user.Level > pathLevel)
+                        resp.Redirect("~/Session/Unauthored");
                 }
             }
-            else
+            catch(Exception ex)
             {
-                Debug.WriteLine("HttpSessionStateBase: null");
+                Debug.WriteLine("HttpSessionStateBase: null. Stacktrace:\n" + ex.StackTrace);
             }
         }
         public static UserModel Login(string email, string pass)
         {
             ConnectionStringSettings SettingsDevelop = ConfigurationManager.ConnectionStrings["develop"];
             string commandText = string.Format("select top 1 * from GCAV.dbo.Users as u where UPPER(u.email) = UPPER('{0}') and BINARY_CHECKSUM(u.pass) = BINARY_CHECKSUM('{1}')", email,pass);
-            IEnumerable<IDataRecord> ieData = ExecQuery2(SettingsDevelop, commandText);
+            IEnumerable<IDataRecord> ieData = SelectQueryToIEnumerable(SettingsDevelop, commandText);
             UserModel user = new UserModel(0);
             foreach(IDataRecord record in ieData)
             {
@@ -53,9 +69,8 @@ namespace mvc_crud
                 }
             }
             return user;
-            //return user == "drockandroid@gmail.com" && pass == "asd";
         }
-        public static IEnumerable<IDataRecord> ExecQuery2(ConnectionStringSettings settings, string commandText)
+        public static IEnumerable<IDataRecord> SelectQueryToIEnumerable(ConnectionStringSettings settings, string commandText)
         {
             using (SqlConnection connection = new SqlConnection(settings.ConnectionString))
             {
@@ -70,22 +85,6 @@ namespace mvc_crud
                     }
                 }
             }
-            /*
-            using (var reader = await command.ExecuteReaderAsync())
-            {
-                while (reader.Read())
-                {
-                    drivers.Add(new DriverModel
-                    {
-                        Id = (int)reader["id"],
-                        Name = (string)reader["name"],
-                        Nationality = (string)reader["nationality"],
-                        Age = (int)reader["age"],
-                        Active = (bool)reader["active"],
-                    });
-                }
-            }
-            */
         }
     }
 }

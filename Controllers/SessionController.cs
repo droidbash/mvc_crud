@@ -36,8 +36,12 @@ namespace mvc_crud.Controllers
         }
         public ActionResult Logout()
         {
-            Session.Remove("id");
+            Session.Remove("user");
             return View("Login");
+        }
+        public ActionResult Unauthored()
+        {
+            return View();
         }
     }
 }
