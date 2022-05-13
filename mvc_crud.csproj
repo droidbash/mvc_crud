@@ -112,6 +112,9 @@
       <Private>True</Private>
       <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -157,6 +160,51 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.bootstrap.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.bootstrap.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.bootstrap4.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.bootstrap5.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.bootstrap5.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.bulma.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.bulma.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.dataTables.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.dataTables.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.foundation.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.foundation.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.jqueryui.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.jqueryui.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.semanticui.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\dataTables.semanticui.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\jquery.dataTables.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\css\jquery.dataTables.min.css" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\images\sort_asc.png" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\images\sort_asc_disabled.png" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\images\sort_both.png" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\images\sort_desc.png" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\images\sort_desc_disabled.png" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.bootstrap.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.bootstrap5.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.bootstrap5.min.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.bulma.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.bulma.min.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.dataTables.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.dataTables.min.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.foundation.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.foundation.min.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.jqueryui.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.semanticui.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\jquery.dataTables.js" />
+    <Content Include="Scripts\Datatables\DataTables-1.12.0\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\Datatables\datatables.css" />
+    <Content Include="Scripts\Datatables\datatables.js" />
+    <Content Include="Scripts\Datatables\datatables.min.css" />
+    <Content Include="Scripts\Datatables\datatables.min.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\jquery-3.6.0.slim.js" />

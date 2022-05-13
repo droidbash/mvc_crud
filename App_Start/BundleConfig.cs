@@ -22,11 +22,13 @@ namespace mvc_crud
             //========================================================================================================================================================
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css","~/Content/site.css"));
             bundles.Add(new StyleBundle("~/Content/signin").Include("~/Content/signin.css"));
+            bundles.Add(new StyleBundle("~/Content/datatables").Include("~/Datatables/datatables.min.css"));
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-3.6.0.js"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include("~/Scripts/jquery.validate*")); //https://blog.trescomatres.com/2020/06/jquery-validation-validar-segun-una-regla-personalizada/
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include("~/Scripts/modernizr-*"));
             //bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js"));
             bundles.Add(new Bundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js"));
+            bundles.Add(new Bundle("~/bundles/datatables").Include("~/Datatables/datatables.min.js"));
         }
     }
 }
