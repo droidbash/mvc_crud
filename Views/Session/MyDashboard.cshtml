@@ -3,9 +3,21 @@
     ViewBag.Title = "Logged";
     UserModel user = (UserModel) Session["user"];
 }
-<h2>Logged</h2>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Logged</h2>
 
-<h3>ID: @(user == null ? "expired": user.Id.ToString() )</h3>
-<h3>Name: @(user == null ? "expired": user.Name)</h3>
-<h3>Email: @(user == null ? "expired": user.Email )</h3>
-<h3>Level: @(user == null ? "expired": user.Level.ToString() )</h3>
+            <h3>ID: @(user == null ? "expired": user.Id.ToString() )</h3>
+            <h3>Name: @(user == null ? "expired": user.Name)</h3>
+            <h3>Email: @(user == null ? "expired": user.Email )</h3>
+            <h3>Level: @(user == null ? "expired": user.Level.ToString() )</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @Html.ActionLink("TABLENAME", "Table", "Edit", new { @table = "Cars" }, new { @class = "btn btn-outline-secondary form-control" })
+        </div>
+    </div>
+</div>
+

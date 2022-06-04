@@ -1,0 +1,79 @@
+﻿@{
+    String table = Request.QueryString["table"];
+}
+<div class="row">
+    <div class="col">
+        <table id="edittable" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Col1</th>
+                    <th>Col2</th>
+                    <th>Col3</th>
+                    <th>Col4</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        console.log('HI');
+        $('#edittable').DataTable(tablaubicacionesDT);
+
+    });
+    var tablaubicacionesDT =
+    {
+        "processing": true, // for show progress bar  
+        "serverSide": true, // for process server side  
+        "filter": true, // this is for disable filter (search box)  
+        "orderMulti": false, // for disable multiple column at once  
+        "pageLength": 5,
+        "ajax": {
+            "url": "/Edit/Cars",
+            "type": "POST",
+            "datatype": "json",
+            "beforeSend": function () {
+                //$('#aplicar').prop('disabled', true);
+            },
+            "complete": function () {
+                //$('#aplicar').prop('disabled', false);
+            }
+        },
+        "columns": [
+            {
+                "data": "id"
+            }, {
+                "data": null
+            }, {
+                "data": null
+            }, {
+                "data": null
+            }],
+        "columnDefs": [
+            {
+                "orderable": true,
+                "searchable": true,
+                "render": function (data, type, full) {
+                    return '<a style="btn btn-secondary" href="./complemento/' + data.Namespace + '.cshtml?comprobante=' + comprobante + '"><span class="glyphicon glyphicon-open-file" style="vertical-align:top;"></span></a>';
+                },
+                "targets": null
+            },
+        ],
+        "deferLoading": 25, // Solo tiene efecto si
+        "deferRender": true,
+        "lengthChange": true,
+        "ordering": true,
+        "pageLength": 10,
+        "paging": false,
+        "pagingType": "full_numbers",
+        "processing": true,
+        "scrollCollapse": true,
+        "scrollY": "52vh", // false
+        "scrollX": false,
+        "autoWidth": false,
+        "order": [[2, "desc"]],
+        "serverSide": false
+    };
+</script>
