@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
 using WebMatrix.Data;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace mvc_crud.Controllers
 {
@@ -32,22 +34,68 @@ namespace mvc_crud.Controllers
             */
             return View();
         }
-        public ActionResult Cars()
+        private String SerializedTable(String table)
         {
+            return JsonConvert.SerializeObject(
+                table == null
+                    ? new Dictionary<string, object>() { { "data", "" } }
+                    : new Dictionary<string, object>() { { "data", QueryTable("develop", "*", table) } }
+                );
+        }
+        private IEnumerable<dynamic> QueryTable(String connectionName, String columns, String table)
+        {
+            return Database.Open(connectionName).Query(String.Format("select {0} from GCAV.dbo.{1}", columns, table));
+        }
+        private IEnumerable<dynamic> QueryRow(String connectionName, String columns, String table, String id)
+        {
+            return Database.Open(connectionName).Query(String.Format("select {0} from GCAV.dbo.{1} where Id = {2}", columns, table, id));
+        }
+        [HttpPost]
+        public String DataTable(String table)
+        {
+            return SerializedTable(table);
+        }
+        [HttpPost]
+        public String GetRowData(String table, String id)
+        {
+            return JsonConvert.SerializeObject(QueryRow("develop", "*", table, id));
+        }
+        [HttpPost]
+        public ActionResult SaveRow()
+        {
+            return Json(new { data = ""});
+        }
+        /*
+        [HttpPost]
+        public async Task<ActionResult> EditTableRow()
+        {
+            var function = Request.Form["function"];
+            Debug.WriteLine(function);
+            string query;
+            switch (function)
+            {
+                case "edit":
+                    //query = QueryEditDriver(Request);
+                    break;
+                case "add":
+                    //query = QueryAddDriver(Request);
+                    break;
+                default:
+                    return View("NotImplemented");
+            }
             try
             {
-                var dictionary = new Dictionary<string, object>();
-                Database db = Database.Open("develop");
-                dictionary.Add("data", db.Query("select * from GCAV.dbo.Cars"));
-                //return Json(new { data = "[1,2]"});
-                Debug.WriteLine(Json(new { data = "[1,2]"}).ToString());
-                return null;
-                //return System.Web.Helpers.Json.Encode(dictionary);
+                //await QueryAsync(SettingsDevelop, query);
+                return RedirectToAction("Index");
+                //return View("Index", await GetDriversAsync());
             }
-            catch(Exception)
+            catch (Exception e)
             {
-                throw;
+                //return View("QueryError", new QueryError() { Msg = "Error al procesar la solicitud en la base de datos.", Error = e.Message });
             }
+            return null;
         }
+
+        */
     }
 }

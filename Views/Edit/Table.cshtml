@@ -1,15 +1,41 @@
-﻿@{
+﻿@using WebMatrix.Data
+@{
     String table = Request.QueryString["table"];
+    Database db = Database.Open("develop");
+    String findTableQuery = String.Format("USE GCAV SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}'",table);
+    String tableColumnsQuery = String.Format("USE GCAV SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{0}'",table);
+
+    bool tableExist = db.Query(findTableQuery).ToList().Count > 0;
+    List<dynamic> tableColumns = db.Query(tableColumnsQuery).ToList();
+    if (!tableExist || !(tableColumns.Count > 0))
+    {
+        Response.Redirect("/Session/Unauthored");
+    }
 }
 <div class="row">
     <div class="col">
-        <table id="edittable" class="table table-striped" style="width:100%">
+        <button type="button" class="btn btn-outline-secondary add">Agregar en @(table)</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <table id="datatable" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Col1</th>
-                    <th>Col2</th>
-                    <th>Col3</th>
-                    <th>Col4</th>
+                    @{
+                        String cols = "";
+                        String fields = "";
+                        int x = 0;
+                        foreach (var row in tableColumns)
+                        {
+                            x++;
+                            fields += String.Format("{0}{1}", row.COLUMN_NAME, (x < tableColumns.Count ? "," : ""));
+                            cols += "{\"data\": \"" + row.COLUMN_NAME + "\"},";
+                            <th>@row.COLUMN_NAME</th>
+                        }
+                        cols += "{\"data\": null}";
+                    }
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,63 +43,147 @@
         </table>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        console.log('HI');
-        $('#edittable').DataTable(tablaubicacionesDT);
-
-    });
-    var tablaubicacionesDT =
-    {
-        "processing": true, // for show progress bar  
-        "serverSide": true, // for process server side  
-        "filter": true, // this is for disable filter (search box)  
-        "orderMulti": false, // for disable multiple column at once  
-        "pageLength": 5,
-        "ajax": {
-            "url": "/Edit/Cars",
-            "type": "POST",
-            "datatype": "json",
-            "beforeSend": function () {
-                //$('#aplicar').prop('disabled', true);
-            },
-            "complete": function () {
-                //$('#aplicar').prop('disabled', false);
+<div class="modal" id="myModal" tabindex="-1">
+    <div class="modal-dialog">
+        @using (Html.BeginForm(
+            controllerName:"Edit",
+            actionName: "SaveRow",
+            method: FormMethod.Post,
+            htmlAttributes: new { enctype = "multipart/form-data", onsubmit = "return SubmitForm(this)" }
+        ))
+        {
+            //@Html.AntiForgeryToken()
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                </div>
+                <div class="modal-body">
+                    @foreach (var row in tableColumns)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if(row.DATA_TYPE == "int")
+                                {
+                                    <label for="id">@row.COLUMN_NAME</label>
+                                    <input type="number" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)" maxlength="5">
+                                }
+                                else if (row.DATA_TYPE == "varchar")
+                                {
+                                    <label for="id">@row.COLUMN_NAME</label>
+                                    <input type="text" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)">
+                                }
+                                else if (row.DATA_TYPE == "text")
+                                {
+                                    <label for="id">@row.COLUMN_NAME</label>
+                                    <textarea class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)"></textarea>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success submit" id="table" name="table" value="@(table)">Guardar</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //console.log(fields);
+            //console.log(fields.split(',').length);
+            $('#datatable').DataTable(dataTableSettings);
+            $(document).on('click', '.btn.edit', function () {
+                fillFields($(this).data("id"));
+                $('.modal').modal('toggle');
+            });
+            $(document).on('click', '.btn.add', function () {
+                clearFields();
+                $('.modal').modal('toggle');
+            });
+            function clearFields() {
+                $.each(fields.split(','), function (index, value) {
+                    $('#' + value).val('').change();
+                });
             }
-        },
-        "columns": [
-            {
-                "data": "id"
-            }, {
-                "data": null
-            }, {
-                "data": null
-            }, {
-                "data": null
-            }],
-        "columnDefs": [
-            {
-                "orderable": true,
-                "searchable": true,
-                "render": function (data, type, full) {
-                    return '<a style="btn btn-secondary" href="./complemento/' + data.Namespace + '.cshtml?comprobante=' + comprobante + '"><span class="glyphicon glyphicon-open-file" style="vertical-align:top;"></span></a>';
+            function fillFields(id) {
+                //console.log($('#table').val() + '.id:' + id);
+                $.ajax({
+                    url: '/Edit/GetRowData',
+                    data: {
+                        id: id,
+                        table: $('#table').val()
+                    },
+                    type: "POST",
+                    success: function (data) {
+                        data = $.parseJSON(data)[0];
+                        for (var item in data) {
+                            //console.log(item + ':' +data[item]);
+                            $('#' + item).val(data[item]).change();
+                        }
+                    }
+                });
+            }
+        });
+        function SubmitForm(form) {
+            console.log('SubmitForm(form)');
+            return false;
+        }
+        var fields = "@fields";
+        var dataTableSettings =
+        {
+            "ajax": {
+                "url": "/Edit/DataTable",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    table: $('#table').val()
                 },
-                "targets": null
+                "beforeSend": function () {
+                    //$('#aplicar').prop('disabled', true);
+                },
+                "complete": function () {
+                    //$('#aplicar').prop('disabled', false);
+                }
             },
-        ],
-        "deferLoading": 25, // Solo tiene efecto si
-        "deferRender": true,
-        "lengthChange": true,
-        "ordering": true,
-        "pageLength": 10,
-        "paging": false,
-        "pagingType": "full_numbers",
-        "processing": true,
-        "scrollCollapse": true,
-        "scrollY": "52vh", // false
-        "scrollX": false,
-        "autoWidth": false,
-        "order": [[2, "desc"]],
-        "serverSide": false
-    };
-</script>
+            "columns": [
+                @(Html.Raw(cols))
+            ],
+            "columnDefs": [
+                {
+                    "orderable": false,
+                    "searchable": false,
+                    "render": function (data, type, full) {
+                        //console.log(data);
+                        //console.log(type);
+                        //console.log(full);
+                        return '<button type="button" class="btn btn-outline-secondary edit" data-id="' + data.Id + '">Edit #' + data.Id + '</button>';
+                    },
+                    "targets": @(tableColumns.Count)
+                },
+            ],
+            "processing": true, // for show progress bar
+            //"serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+
+            "deferLoading": 25, // Solo tiene efecto si
+            "deferRender": true,
+            "lengthChange": true,
+            "ordering": true,
+            //"pageLength": 10,
+            "paging": false,
+            "pagingType": "full_numbers",
+            "processing": true,
+            "scrollCollapse": true,
+            "scrollY": "52vh", // false
+            "scrollX": false,
+            "autoWidth": false,
+            "order": [[0, "asc"]],
+            //"serverSide": false
+        };
+    </script>
+}

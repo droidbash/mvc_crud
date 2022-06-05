@@ -1,23 +1,47 @@
 ﻿@using mvc_crud.Models
 @{
     ViewBag.Title = "Logged";
-    UserModel user = (UserModel) Session["user"];
+    UserModel user = (UserModel)Session["user"];
 }
 <div class="container">
-    <div class="row">
+    <div class="row" hidden>
         <div class="col">
             <h2>Logged</h2>
 
-            <h3>ID: @(user == null ? "expired": user.Id.ToString() )</h3>
-            <h3>Name: @(user == null ? "expired": user.Name)</h3>
-            <h3>Email: @(user == null ? "expired": user.Email )</h3>
-            <h3>Level: @(user == null ? "expired": user.Level.ToString() )</h3>
+            <h3>ID: @(user == null ? "expired" : user.Id.ToString() )</h3>
+            <h3>Name: @(user == null ? "expired" : user.Name)</h3>
+            <h3>Email: @(user == null ? "expired" : user.Email )</h3>
+            <h3>Level: @(user == null ? "expired" : user.Level.ToString() )</h3>
         </div>
     </div>
-    <div class="row">
+    <div class="row px-2 py-2">
         <div class="col">
-            @Html.ActionLink("TABLENAME", "Table", "Edit", new { @table = "Cars" }, new { @class = "btn btn-outline-secondary form-control" })
+            @Html.ActionLink("Cars", "Table", "Edit", new { @table = "Cars" }, new { @class = "btn btn-outline-secondary form-control p-4" })
+        </div>
+        <div class="col">
+            @Html.ActionLink("Categories", "Table", "Edit", new { @table = "Categories" }, new { @class = "btn btn-outline-secondary form-control p-4" })
+        </div>
+        <div class="col">
+            @Html.ActionLink("DriverTournament", "Table", "Edit", new { @table = "DriverTournament" }, new { @class = "btn btn-outline-secondary form-control p-4" })
+        </div>
+    </div>
+    <div class="row px-2 py-2">
+        <div class="col">
+            @Html.ActionLink("TeamDrivers", "Table", "Edit", new { @table = "TeamDrivers" }, new { @class = "btn btn-outline-secondary form-control p-4" })
+        </div>
+        <div class="col">
+            @Html.ActionLink("Teams", "Table", "Edit", new { @table = "Teams" }, new { @class = "btn btn-outline-secondary form-control p-4" })
+        </div>
+        <div class="col">
+            @Html.ActionLink("TeamTournament", "Table", "Edit", new { @table = "TeamTournament" }, new { @class = "btn btn-outline-secondary form-control p-4" })
+        </div>
+    </div>
+    <div class="row px-2 py-2">
+        <div class="col">
+            @Html.ActionLink("Userdata", "Table", "Edit", new { @table = "Userdata" }, new { @class = "btn btn-outline-secondary form-control p-4" })
+        </div>
+        <div class="col">
+            @Html.ActionLink("TeamDrivers", "Table", "Edit", new { @table = "TeamDrivers" }, new { @class = "btn btn-outline-secondary form-control p-4" })
         </div>
     </div>
 </div>
-
