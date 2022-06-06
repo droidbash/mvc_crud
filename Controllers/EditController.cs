@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Diagnostics;
 using WebMatrix.Data;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 
 namespace mvc_crud.Controllers
 {
@@ -15,23 +12,6 @@ namespace mvc_crud.Controllers
         // GET: Edit
         public ActionResult Table(String @table)
         {
-            /*
-            String respS = "";
-            foreach(var row in resp)
-            {
-                respS += row.Id;
-            }
-            Debug.WriteLine(respS);
-            */
-            /*
-            switch (table)
-            {
-                case "Cars": return Cars();
-                default: return View();
-            }
-            Debug.WriteLine("ActionResult:" + @table);
-            return RedirectToAction(controllerName:"Edit",actionName:"Cars");
-            */
             return View();
         }
         private String SerializedTable(String table)
@@ -60,42 +40,74 @@ namespace mvc_crud.Controllers
         {
             return JsonConvert.SerializeObject(QueryRow("develop", "*", table, id));
         }
-        [HttpPost]
-        public ActionResult SaveRow()
+        private bool EditRow(HttpRequestBase Request)
         {
-            return Json(new { data = ""});
-        }
-        /*
-        [HttpPost]
-        public async Task<ActionResult> EditTableRow()
-        {
-            var function = Request.Form["function"];
-            Debug.WriteLine(function);
-            string query;
-            switch (function)
-            {
-                case "edit":
-                    //query = QueryEditDriver(Request);
-                    break;
-                case "add":
-                    //query = QueryAddDriver(Request);
-                    break;
-                default:
-                    return View("NotImplemented");
-            }
+            String table = "";
+            String Id = "";
+            String sets = "";
             try
             {
-                //await QueryAsync(SettingsDevelop, query);
-                return RedirectToAction("Index");
-                //return View("Index", await GetDriversAsync());
+                int x = 0;
+                foreach (var key in Request.Form.AllKeys)
+                {
+                    x++;
+                    if (key == "table")
+                        table = Request.Form[key];
+                    else if (key == "Id")
+                        Id = Request.Form[key];
+                    else if (key != "function")
+                        sets += String.Format("{0}='{1}',", key, Request.Form[key]);
+                }
+                sets = sets.Substring(0, sets.Length - 1);
+                Database.Open("develop").Query(String.Format("update GCAV.dbo.{0} set {1} where Id = {2}", table, sets, Id));
+                return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //return View("QueryError", new QueryError() { Msg = "Error al procesar la solicitud en la base de datos.", Error = e.Message });
+                return false;
             }
-            return null;
         }
-
-        */
+        private bool AddRow(HttpRequestBase Request)
+        {
+            String table = "";
+            String keys = "";
+            String values = "";
+            try
+            {
+                int x = 0;
+                foreach (var key in Request.Form.AllKeys)
+                {
+                    x++;
+                    if (key == "table")
+                    {
+                        table = Request.Form[key];
+                    }
+                    else if (key != "function" && key != "Id")
+                    {
+                        keys += String.Format("{0},", key);
+                        values += String.Format("'{0}',", Request.Form[key]);
+                    }
+                }
+                keys = keys.Substring(0, keys.Length - 1);
+                values = values.Substring(0, values.Length - 1);
+                Database.Open("develop").Query(String.Format("insert into GCAV.dbo.{0}({1}) values ({2})", table, keys, values));
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
+        [HttpPost]
+        public ActionResult Modal()
+        {
+            String function = Request.Form["function"];
+            switch(function)
+            {
+                case "add": return Json(new { success = AddRow(Request) });
+                case "edit": return Json(new { success = EditRow(Request)});
+                case "delete": return Json(new { success = true });
+                default: return Json(new { success = false });
+            }
+        }
     }
 }

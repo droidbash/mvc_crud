@@ -47,9 +47,9 @@
     <div class="modal-dialog">
         @using (Html.BeginForm(
             controllerName:"Edit",
-            actionName: "SaveRow",
+            actionName: "Modal",
             method: FormMethod.Post,
-            htmlAttributes: new { enctype = "multipart/form-data", onsubmit = "return SubmitForm(this)" }
+            htmlAttributes: new { enctype = "multipart/form-data", onsubmit = "return validateForm(this)" }
         ))
         {
             //@Html.AntiForgeryToken()
@@ -59,24 +59,34 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
                 </div>
                 <div class="modal-body">
+                    <input type="text" class="form-control" name="table" value="@(table)" hidden>
+                    <input type="text" class="form-control" id="function" name="function" hidden>
                     @foreach (var row in tableColumns)
                     {
                         <div class="row">
                             <div class="col-md-12">
-                                @if(row.DATA_TYPE == "int")
+                                @if (row.COLUMN_NAME == "Id")
                                 {
-                                    <label for="id">@row.COLUMN_NAME</label>
-                                    <input type="number" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)" maxlength="5">
+                                    <label for="id" hidden>@row.COLUMN_NAME</label>
+                                    <input type="number" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)" hidden>
                                 }
-                                else if (row.DATA_TYPE == "varchar")
+                                else
                                 {
-                                    <label for="id">@row.COLUMN_NAME</label>
-                                    <input type="text" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)">
-                                }
-                                else if (row.DATA_TYPE == "text")
-                                {
-                                    <label for="id">@row.COLUMN_NAME</label>
-                                    <textarea class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)"></textarea>
+                                    if (row.DATA_TYPE == "int")
+                                    {
+                                        <label>@row.COLUMN_NAME</label>
+                                        <input type="number" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)" maxlength="5">
+                                    }
+                                    else if (row.DATA_TYPE == "varchar")
+                                    {
+                                        <label>@row.COLUMN_NAME</label>
+                                        <input type="text" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)">
+                                    }
+                                    else if (row.DATA_TYPE == "text")
+                                    {
+                                        <label>@row.COLUMN_NAME</label>
+                                        <textarea class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)"></textarea>
+                                    }
                                 }
                             </div>
                         </div>
@@ -93,15 +103,15 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            //console.log(fields);
-            //console.log(fields.split(',').length);
             $('#datatable').DataTable(dataTableSettings);
             $(document).on('click', '.btn.edit', function () {
                 fillFields($(this).data("id"));
+                $('#function').val('edit');
                 $('.modal').modal('toggle');
             });
             $(document).on('click', '.btn.add', function () {
                 clearFields();
+                $('#function').val('add');
                 $('.modal').modal('toggle');
             });
             function clearFields() {
@@ -128,8 +138,30 @@
                 });
             }
         });
-        function SubmitForm(form) {
-            console.log('SubmitForm(form)');
+        function validateForm(form) {
+            $(form).validate({
+                rules: {
+                    Id: { required: true, minlength: 1, maxlength: 5 },
+                },
+                messages: {
+                    Id: "El campo es obligatorio con longitud de 1 a 5.",
+                }
+            });
+            if ($(form).valid()) {
+                $.ajax({
+                    url: form.action,
+                    data: $(form).serialize(),
+                    type: "POST",
+                    success: function (data) {
+                        console.log(data);
+                        $('#datatable').DataTable().ajax.reload();
+                        $('.modal').modal('toggle');
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
             return false;
         }
         var fields = "@fields";

@@ -1,0 +1,120 @@
+﻿@using WebMatrix.Data;
+@{
+    Database db = Database.Open("develop");
+    List<dynamic> resp = null;
+}
+<div class="row">
+    <div class="col">
+        <center>
+            <h1>Enroll Driver</h1>
+        </center>
+    </div>
+</div>
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        @using (Html.BeginForm(controllerName: "Driver", actionName: "EnrollTournament", method: FormMethod.Post,
+            htmlAttributes: new { enctype = "multipart/form-data", onsubmit = "return validateForm(this)" }))
+        {
+            
+            <div class="row">
+                <div class="col">
+                    <div class="row px-2 py-2">
+                        <div class="col">
+                            <label>Tournament</label>
+                            <select name="tournament" class="form-select" aria-label="Default select example">
+                                @{
+                                    resp = db.Query("use GCAV select * from dbo.Tournaments").ToList();
+                                    foreach (var row in resp)
+                                    {
+                                        <option value="@row.Id" title="@row.Description">@row.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row px-2 py-2">
+                        <div class="col">
+                            <label>Car</label>
+                            <select name="car" class="form-select" aria-label="Disabled  select example">
+                                @{
+                                    resp = db.Query("use GCAV select * from dbo.Cars").ToList();
+                                    foreach (var row in resp)
+                                    {
+                                        <option value="@row.Id" title="@row.Description">@row.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row px-2 py-2">
+                        <div class="col"></div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-success submit form-control">Join</button>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col"></div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+        });
+        function validateForm(form) {
+            $(form).validate({
+                rules: {
+                    //Id: { required: true, minlength: 1, maxlength: 5 },
+                },
+                messages: {
+                    //Id: "El campo es obligatorio con longitud de 1 a 5.",
+                }
+            });
+            if ($(form).valid()) {
+                $.ajax({
+                    url: form.action,
+                    data: $(form).serialize(),
+                    type: "POST",
+                    success: function (data) {
+                        console.log(data);
+                        if (true) {
+                            if (data.success) {
+                                window.location.href = '@Url.Action("MyDashboard", "Session", null)';
+                            }
+                            else {
+                                window.location.href = '@Url.Action("Unauthored", "Session", null)';
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+            return false;
+        }
+    </script>
+}
+<!--
+    <div class="row">
+        <div class="col">
+            <label>number</label>
+            <input type="number" class="form-control" id="" name="">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>text</label>
+            <input type="text" class="form-control" id="" name="">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>textarea</label>
+            <textarea class="form-control" id="" name=""></textarea>
+        </div>
+    </div>
+-->
