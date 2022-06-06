@@ -268,6 +268,9 @@
     <Content Include="Views\Edit\Table.cshtml" />
     <Content Include="Views\Driver\Enroll.cshtml" />
     <Content Include="Views\Team\Create.cshtml" />
+    <Content Include="Views\Driver\EnrolledTournaments.cshtml" />
+    <Content Include="Views\Driver\Teams.cshtml" />
+    <Content Include="Views\Driver\JoinTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

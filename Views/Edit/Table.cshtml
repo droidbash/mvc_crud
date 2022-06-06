@@ -52,45 +52,46 @@
             htmlAttributes: new { enctype = "multipart/form-data", onsubmit = "return validateForm(this)" }
         ))
         {
-            //@Html.AntiForgeryToken()
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" name="table" value="@(table)" hidden>
-                    <input type="text" class="form-control" id="function" name="function" hidden>
-                    @foreach (var row in tableColumns)
-                    {
-                        <div class="row">
-                            <div class="col-md-12">
-                                @if (row.COLUMN_NAME == "Id")
-                                {
-                                    <label for="id" hidden>@row.COLUMN_NAME</label>
-                                    <input type="number" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)" hidden>
-                                }
-                                else
-                                {
-                                    if (row.DATA_TYPE == "int")
+                    <div class="modalbody">
+                        <input type="text" class="form-control" name="table" value="@(table)" hidden>
+                        <input type="text" class="form-control" id="function" name="function" hidden>
+                        @foreach (var row in tableColumns)
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (row.COLUMN_NAME == "Id")
                                     {
-                                        <label>@row.COLUMN_NAME</label>
-                                        <input type="number" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)" maxlength="5">
+                                        <label for="id" hidden>@row.COLUMN_NAME</label>
+                                        <input type="number" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)" hidden>
                                     }
-                                    else if (row.DATA_TYPE == "varchar")
+                                    else
                                     {
-                                        <label>@row.COLUMN_NAME</label>
-                                        <input type="text" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)">
+                                        if (row.DATA_TYPE == "int")
+                                        {
+                                            <label>@row.COLUMN_NAME</label>
+                                            <input type="number" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)" maxlength="5">
+                                        }
+                                        else if (row.DATA_TYPE == "varchar")
+                                        {
+                                            <label>@row.COLUMN_NAME</label>
+                                            <input type="text" class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)">
+                                        }
+                                        else if (row.DATA_TYPE == "text")
+                                        {
+                                            <label>@row.COLUMN_NAME</label>
+                                            <textarea class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)"></textarea>
+                                        }
                                     }
-                                    else if (row.DATA_TYPE == "text")
-                                    {
-                                        <label>@row.COLUMN_NAME</label>
-                                        <textarea class="form-control" id="@(row.COLUMN_NAME)" name="@(row.COLUMN_NAME)"></textarea>
-                                    }
-                                }
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -107,12 +108,20 @@
             $(document).on('click', '.btn.edit', function () {
                 fillFields($(this).data("id"));
                 $('#function').val('edit');
+                $('.modalbody').show();
                 $('.modal').modal('toggle');
             });
             $(document).on('click', '.btn.add', function () {
                 clearFields();
                 $('#function').val('add');
+                $('.modalbody').show();
                 $('.modal').modal('toggle');
+            });
+            $(document).on('click', '.btn.delete', function () {
+                $('.modal').modal('toggle');
+                $('#function').val('delete');
+                $('.modalbody').hide();
+                $('#Id').val($(this).data("id"));
             });
             function clearFields() {
                 $.each(fields.split(','), function (index, value) {
@@ -192,7 +201,7 @@
                         //console.log(data);
                         //console.log(type);
                         //console.log(full);
-                        return '<button type="button" class="btn btn-outline-secondary edit" data-id="' + data.Id + '">Edit #' + data.Id + '</button>';
+                        return '<button type="button" class="btn btn-outline-secondary edit" data-id="' + data.Id + '">Edit</button><button type="button" style="margin-left: 5px;" class="btn btn-outline-danger delete" data-id="' + data.Id + '">Delete</button>';
                     },
                     "targets": @(tableColumns.Count)
                 },

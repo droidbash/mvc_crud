@@ -15,6 +15,18 @@ namespace mvc_crud.Controllers
         {
             return View();
         }
+        public ActionResult EnrolledTournaments()
+        {
+            return View();
+        }
+        public ActionResult Teams()
+        {
+            return View();
+        }
+        public ActionResult JoinTeam()
+        {
+            return View();
+        }
         [HttpPost]
         public ActionResult EnrollTournament()
         {

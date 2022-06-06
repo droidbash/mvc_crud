@@ -97,6 +97,20 @@ namespace mvc_crud.Controllers
                 return false;
             }
         }
+        private bool DeleteRow(HttpRequestBase Request)
+        {
+            String table = Request.Form["table"];
+            String Id = Request.Form["Id"];
+            try
+            {
+                Database.Open("develop").Query(String.Format("delete from GCAV.dbo.{0} where Id = '{1}'", table, Id));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         [HttpPost]
         public ActionResult Modal()
         {
@@ -105,7 +119,7 @@ namespace mvc_crud.Controllers
             {
                 case "add": return Json(new { success = AddRow(Request) });
                 case "edit": return Json(new { success = EditRow(Request)});
-                case "delete": return Json(new { success = true });
+                case "delete": return Json(new { success = DeleteRow(Request) });
                 default: return Json(new { success = false });
             }
         }

@@ -1,0 +1,46 @@
+﻿@using WebMatrix.Data
+@using mvc_crud.Models
+@{
+    UserModel user = (UserModel)Session["user"];
+    var tournaments = Database.Open("develop").Query(String.Format("select tourn.[Name] Tournament, tourn.[Description] Info, cars.[Name] CarModel from GCAV.dbo.DriverTournament drivertourn left join GCAV.dbo.Tournaments tourn on tourn.Id = drivertourn.Tournament left join GCAV.dbo.Users users on drivertourn.[User] = users.Id left join GCAV.dbo.Cars cars on cars.Id = drivertourn.Car where drivertourn.[User] = '{0}'", user.Id)).ToList();
+}
+<div class="row">
+    <div class="col">
+        <center>
+            <h1>Enrrolled Tournaments</h1>
+        </center>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <table id="datatable" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Tournament</th>
+                    <th>Info</th>
+                    <th>CarModel</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var row in tournaments)
+                {
+                    <tr>
+                        <td>@row.Tournament</td>
+                        <td>@row.Info</td>
+                        <td>@row.CarModel</td>
+                        <td><button hidden class="btn btn-outline-secondary">Edit</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            console.log('HOLI');
+            $('#datatable').DataTable();
+        });
+    </script>
+}
